@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
+import '../home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -12,17 +12,11 @@ class LoginScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            TextField(
-              decoration: const InputDecoration(
-                labelText: 'Correo',
-              ),
-            ),
+            TextField(decoration: const InputDecoration(labelText: 'Correo')),
             const SizedBox(height: 20),
             TextField(
               obscureText: true,
-              decoration: const InputDecoration(
-                labelText: 'Contraseña',
-              ),
+              decoration: const InputDecoration(labelText: 'Contraseña'),
             ),
             const SizedBox(height: 30),
             ElevatedButton(
@@ -30,13 +24,11 @@ class LoginScreen extends StatelessWidget {
                 // Por ahora entra directo
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomeScreen(),
-                  ),
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
                 );
               },
               child: const Text('Ingresar'),
-            )
+            ),
           ],
         ),
       ),

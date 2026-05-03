@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'plantas_screen.dart';
-import 'recetas_screen.dart';
-import 'perfil_screen.dart';
+import 'plantas/plantas_screen.dart';
+import 'recetas/recetas_screen.dart';
+import 'perfil/perfil_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,7 +11,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   int _currentIndex = 0;
 
   final List<Widget> _screens = const [
@@ -42,10 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.local_drink),
             label: 'Recetas',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Perfil',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil'),
         ],
       ),
     );
