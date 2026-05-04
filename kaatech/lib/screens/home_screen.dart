@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'plantas/plantas_screen.dart';
-import 'recetas/recetas_screen.dart';
-import 'perfil/perfil_screen.dart';
+import '../screens/recetas/recetas_screen.dart';
+import '../screens/perfil/perfil_screen.dart';
+import '../screens/recetas/home_content_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,10 +11,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   int _currentIndex = 0;
 
+  // Pantallas de tabs
   final List<Widget> _screens = const [
-    PlantasScreen(),
+    HomeContent(), 
     RecetasScreen(),
     PerfilScreen(),
   ];
@@ -41,7 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.local_drink),
             label: 'Recetas',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Perfil',
+          ),
         ],
       ),
     );

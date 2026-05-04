@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'detalle_plantas_screen.dart';
+import 'detalle_planta_screen.dart';
 
 class ListaPlantasScreen extends StatelessWidget {
   final String categoria;
@@ -23,7 +23,7 @@ class ListaPlantasScreen extends StatelessWidget {
               title: Text(plantas[index]),
               trailing: const Icon(Icons.arrow_forward_ios),
 
-              // 🔥 AQUÍ está lo que querías
+             
               onTap: () {
                 Navigator.push(
                   context,
