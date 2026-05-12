@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "820941844264",
+    "project_id": "kaatech-plantas",
+    "storage_bucket": "kaatech-plantas.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820941844264:android:6f258eca22aaedbd982a1d",
+        "android_client_info": {
+          "package_name": "com.example.kaatech"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820941844264-ft1eun73smfa2pg6gte3cdbqasmpio1k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kaatech",
+            "certificate_hash": "ad2a2a963516964215fdf95cc75e4139a887e229"
+          }
+        },
+        {
+          "client_id": "820941844264-8tuvlisc2kk5vill6ap597f5usvg3jeo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6ux7y2bIzWZv_d3jg0Aw50Ec2hWH79tc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820941844264-8tuvlisc2kk5vill6ap597f5usvg3jeo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "820941844264-3mjrgtmdkar930vn47mjat85cvhc0bfg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.kaatech"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'plantas/plantas_screen.dart';
-import 'recetas/recetas_screen.dart';
-import 'perfil/perfil_screen.dart';
+import 'core/constants/app_colors.dart';
+import 'features/recetas/screens/recetas_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,24 +13,18 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = const [
-    PlantasScreen(),
+    _PlaceholderScreen(label: 'Plantas'),
     RecetasScreen(),
-    PerfilScreen(),
+    _PlaceholderScreen(label: 'Perfil'),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _screens[_currentIndex],
-
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        selectedItemColor: Colors.green,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+        onTap: (index) => setState(() => _currentIndex = index),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.local_florist),
@@ -43,6 +36,25 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil'),
         ],
+      ),
+    );
+  }
+}
+
+class _PlaceholderScreen extends StatelessWidget {
+  final String label;
+  const _PlaceholderScreen({required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        label,
+        style: const TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.w600,
+          color: AppColors.primary,
+        ),
       ),
     );
   }
