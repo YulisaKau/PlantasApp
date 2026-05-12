@@ -22,58 +22,93 @@ class PlantCard extends StatelessWidget {
 
       child: Container(
 
-        width: 145,
-        margin: const EdgeInsets.only(right: 14),
+        width: 170,
+
+        margin: const EdgeInsets.only(right: 18),
 
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(22),
+
+          borderRadius: BorderRadius.circular(28),
 
           boxShadow: [
+
             BoxShadow(
-              color: Colors.black.withOpacity(0.08),
+
+              color: Colors.black.withOpacity(0.12),
+
               blurRadius: 12,
-              offset: const Offset(0, 4),
+              offset: const Offset(0, 6),
             ),
           ],
         ),
 
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ClipRRect(
 
-          children: [
+          borderRadius: BorderRadius.circular(28),
 
-            ClipRRect(
+          child: Stack(
 
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(22),
-              ),
+            children: [
 
-              child: Hero(
+              // 🌿 imagen
+              Hero(
 
                 tag: image,
 
                 child: Image.asset(
+
                   image,
-                  height: 120,
+
                   width: double.infinity,
+                  height: double.infinity,
+
                   fit: BoxFit.cover,
                 ),
               ),
-            ),
 
-            Padding(
-              padding: const EdgeInsets.all(12),
+              // 🌑 overlay oscuro
+              Container(
 
-              child: Text(
-                name,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                decoration: BoxDecoration(
+
+                  gradient: LinearGradient(
+
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+
+                    colors: [
+
+                      Colors.transparent,
+
+                      Colors.black.withOpacity(0.7),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+
+              // 📝 texto
+              Positioned(
+
+                bottom: 18,
+                left: 16,
+                right: 16,
+
+                child: Text(
+
+                  name,
+
+                  style: const TextStyle(
+
+                    color: Colors.white,
+
+                    fontSize: 22,
+
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

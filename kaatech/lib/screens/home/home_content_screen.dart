@@ -16,13 +16,10 @@ class HomeContent extends StatefulWidget {
 
 class _HomeContentState extends State<HomeContent> {
 
-  // 🌿 lista filtrada
   List<Planta> plantasFiltradas = plantas;
 
-  // 🌱 categoría seleccionada
   String categoriaSeleccionada = "";
 
-  // 🔍 búsqueda
   void buscarPlanta(String texto) {
 
     final resultados = plantas.where((planta) {
@@ -39,12 +36,10 @@ class _HomeContentState extends State<HomeContent> {
     });
   }
 
-  // 🌱 filtrar categoría
   void filtrarCategoria(String categoria) {
 
     setState(() {
 
-      // si tocan la misma categoría otra vez
       if (categoriaSeleccionada == categoria) {
 
         categoriaSeleccionada = "";
@@ -66,150 +61,332 @@ class _HomeContentState extends State<HomeContent> {
   @override
   Widget build(BuildContext context) {
 
-    return SafeArea(
+    return Scaffold(
 
-      child: Padding(
-        padding: const EdgeInsets.all(16),
+      backgroundColor:
+          Theme.of(context).scaffoldBackgroundColor,
 
-        child: SingleChildScrollView(
+      body: SafeArea(
 
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
 
-            children: [
+          child: SingleChildScrollView(
 
-              // 👋 saludo
-              const Text(
-                "Hola, Alex 🌿",
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
 
-              const SizedBox(height: 20),
+              children: [
 
-              // 🔍 buscador
-              TextField(
+                // 👋 saludo
+                Text(
+                  "Hola, Alex 🌿",
 
-                onChanged: buscarPlanta,
+                  style: TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
 
-                decoration: InputDecoration(
-
-                  hintText: "Buscar planta...",
-                  prefixIcon: const Icon(Icons.search),
-
-                  filled: true,
-                  fillColor: Colors.white,
-
-                  contentPadding: const EdgeInsets.symmetric(
-                    vertical: 18,
-                  ),
-
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(18),
-                    borderSide: BorderSide.none,
+                    color: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.color,
                   ),
                 ),
-              ),
 
-              const SizedBox(height: 30),
+                const SizedBox(height: 20),
 
-              // 🌱 categorías
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // 🔍 buscador
+                TextField(
 
-                children: [
+                  onChanged: buscarPlanta,
 
-                  CategoryItem(
-  title: "Digestivas",
-  icon: Icons.spa,
+                  decoration: InputDecoration(
 
-  isSelected:
-      categoriaSeleccionada == "Digestivas",
+                    hintText: "Buscar planta...",
+                    prefixIcon: const Icon(Icons.search),
 
-  onTap: () {
-    filtrarCategoria("Digestivas");
-  },
-),
+                    filled: true,
 
-                  CategoryItem(
-  title: "Resp",
-  icon: Icons.air,
+                    fillColor:
+                        Theme.of(context).cardColor,
 
-  isSelected:
-      categoriaSeleccionada == "Respiratorias",
+                    contentPadding:
+                        const EdgeInsets.symmetric(
+                      vertical: 18,
+                    ),
 
-  onTap: () {
-    filtrarCategoria("Respiratorias");
-  },
-),
+                    border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.circular(18),
 
-                  CategoryItem(
-  title: "Relajantes",
-  icon: Icons.self_improvement,
-
-  isSelected:
-      categoriaSeleccionada == "Relajantes",
-
-  onTap: () {
-    filtrarCategoria("Relajantes");
-  },
-),
-                ],
-              ),
-
-              const SizedBox(height: 35),
-
-              // 🌿 título
-              const Text(
-                "Plantas destacadas",
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
                 ),
-              ),
 
-              const SizedBox(height: 18),
+                const SizedBox(height: 25),
 
-              // 🌿 cards dinámicas
-              SizedBox(
+                // 🌿 PLANTA DEL DÍA
+                Container(
 
-                height: 190,
+                  height: 220,
 
-                child: ListView(
+                  decoration: BoxDecoration(
 
-                  scrollDirection: Axis.horizontal,
+                    borderRadius:
+                        BorderRadius.circular(28),
 
-                  children: plantasFiltradas.map((planta) {
+                    image: const DecorationImage(
 
-                    return PlantCard(
+                      image: AssetImage(
+                        "assets/images/manzanilla.jpg",
+                      ),
 
-                      name: planta.nombre,
-                      image: planta.imagen,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+
+                  child: Container(
+
+                    padding: const EdgeInsets.all(20),
+
+                    decoration: BoxDecoration(
+
+                      borderRadius:
+                          BorderRadius.circular(28),
+
+                      gradient: LinearGradient(
+
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+
+                        colors: [
+
+                          Colors.black.withOpacity(0.2),
+
+                          Colors.black.withOpacity(0.7),
+                        ],
+                      ),
+                    ),
+
+                    child: Column(
+
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start,
+
+                      mainAxisAlignment:
+                          MainAxisAlignment.end,
+
+                      children: [
+
+                        const Text(
+
+                          "🌿 Planta del día",
+
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 16,
+                          ),
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        const Text(
+
+                          "Manzanilla",
+
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontWeight:
+                                FontWeight.bold,
+                          ),
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        const Text(
+
+                          "Ideal para relajación y dolor estomacal",
+
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 15,
+                          ),
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        ElevatedButton(
+
+                          onPressed: () {
+
+                            final planta = plantas.first;
+
+                            Navigator.push(
+
+                              context,
+
+                              MaterialPageRoute(
+
+                                builder: (_) =>
+                                    DetallePlantaScreen(
+                                  planta: planta,
+                                ),
+                              ),
+                            );
+                          },
+
+                          style:
+                              ElevatedButton.styleFrom(
+
+                            backgroundColor:
+                                Colors.white,
+
+                            foregroundColor:
+                                Colors.green,
+
+                            shape:
+                                RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(
+                                16,
+                              ),
+                            ),
+                          ),
+
+                          child: const Text(
+                            "Ver más",
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 35),
+
+                // 🌿 categorías
+                Row(
+
+                  mainAxisAlignment:
+                      MainAxisAlignment.spaceBetween,
+
+                  children: [
+
+                    CategoryItem(
+
+                      title: "Digestivas",
+                      icon: Icons.spa,
+
+                      isSelected:
+                          categoriaSeleccionada ==
+                              "Digestivas",
 
                       onTap: () {
 
-                        Navigator.push(
-
-                          context,
-
-                          MaterialPageRoute(
-
-                            builder: (_) => DetallePlantaScreen(
-                              planta: planta,
-                            ),
-                          ),
+                        filtrarCategoria(
+                          "Digestivas",
                         );
                       },
-                    );
+                    ),
 
-                  }).toList(),
+                    CategoryItem(
+
+                      title: "Resp",
+                      icon: Icons.air,
+
+                      isSelected:
+                          categoriaSeleccionada ==
+                              "Respiratorias",
+
+                      onTap: () {
+
+                        filtrarCategoria(
+                          "Respiratorias",
+                        );
+                      },
+                    ),
+
+                    CategoryItem(
+
+                      title: "Relajantes",
+                      icon:
+                          Icons.self_improvement,
+
+                      isSelected:
+                          categoriaSeleccionada ==
+                              "Relajantes",
+
+                      onTap: () {
+
+                        filtrarCategoria(
+                          "Relajantes",
+                        );
+                      },
+                    ),
+                  ],
                 ),
-              ),
 
-              const SizedBox(height: 30),
-            ],
+                const SizedBox(height: 35),
+
+                // 🌱 plantas destacadas
+                Text(
+
+                  "Plantas destacadas",
+
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+
+                    color: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.color,
+                  ),
+                ),
+
+                const SizedBox(height: 18),
+
+                SizedBox(
+
+                  height: 190,
+
+                  child: ListView(
+
+                    scrollDirection:
+                        Axis.horizontal,
+
+                    children:
+                        plantasFiltradas.map((planta) {
+
+                      return PlantCard(
+
+                        name: planta.nombre,
+                        image: planta.imagen,
+
+                        onTap: () {
+
+                          Navigator.push(
+
+                            context,
+
+                            MaterialPageRoute(
+
+                              builder: (_) =>
+                                  DetallePlantaScreen(
+                                planta: planta,
+                              ),
+                            ),
+                          );
+                        },
+                      );
+
+                    }).toList(),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

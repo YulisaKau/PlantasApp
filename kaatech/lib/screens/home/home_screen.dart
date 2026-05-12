@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../perfil/perfil_screen.dart';
 import '../favoritos/favoritos_screen.dart';
-import '../plantas/lista_plantas_screen.dart';
+import '../recetas/recetas_screen.dart';
 
 import 'home_content_screen.dart';
 
@@ -18,9 +18,13 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = const [
+
     HomeContent(),
-    ListaPlantasScreen(),
+
+    RecetasScreen(),
+
     FavoritosScreen(),
+
     PerfilScreen(),
   ];
 
@@ -80,8 +84,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
 
               BottomNavigationBarItem(
-                icon: Icon(Icons.search),
-                label: 'Buscar',
+                icon: Icon(Icons.local_drink),
+                label: 'Recetas',
               ),
 
               BottomNavigationBarItem(
