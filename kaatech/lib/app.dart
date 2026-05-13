@@ -5,6 +5,8 @@ import 'core/constants/app_strings.dart';
 import 'features/auth/providers/auth_provider.dart';
 import 'features/auth/screens/login_screen.dart';
 import 'features/recetas/providers/recetas_provider.dart';
+import 'features/plantas/providers/favoritos_provider.dart';
+import 'features/plantas/providers/theme_provider.dart';
 import 'home_screen.dart';
 
 class App extends StatelessWidget {
@@ -16,12 +18,48 @@ class App extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => RecetasProvider()),
+        ChangeNotifierProvider(create: (_) => FavoritosProvider()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
       ],
-      child: MaterialApp(
-        title: AppStrings.appName,
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.lightTheme,
-        home: const _AuthGate(),
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, child) {
+          return MaterialApp(
+            title: AppStrings.appName,
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.lightTheme,
+            darkTheme: ThemeData.dark().copyWith(
+              colorScheme: ColorScheme.dark(
+                primary: const Color(0xFF2D6A4F),
+                secondary: const Color(0xFF52B788),
+              ),
+              inputDecorationTheme: InputDecorationTheme(
+                filled: true,
+                fillColor: Colors.grey.shade800,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 14,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(14),
+                  borderSide: BorderSide(color: Colors.grey.shade600),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(14),
+                  borderSide: BorderSide(color: Colors.grey.shade600),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(14),
+                  borderSide: const BorderSide(
+                    color: Color(0xFF2D6A4F),
+                    width: 1.5,
+                  ),
+                ),
+              ),
+            ),
+            themeMode: themeProvider.themeMode,
+            home: const _AuthGate(),
+          );
+        },
       ),
     );
   }
