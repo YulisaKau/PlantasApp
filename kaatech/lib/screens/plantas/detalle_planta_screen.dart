@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../models/planta_model.dart';
-import '../../providers/favoritos_provider.dart';
 
 class DetallePlantaScreen extends StatelessWidget {
 
@@ -16,70 +14,47 @@ class DetallePlantaScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final favoritosProvider =
-        Provider.of<FavoritosProvider>(context);
-
-    final esFavorito =
-        favoritosProvider.esFavorito(planta);
-
     return Scaffold(
 
       backgroundColor:
-          Theme.of(context).scaffoldBackgroundColor,
-
-      appBar: AppBar(
-
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-
-        iconTheme: const IconThemeData(
-          color: Colors.white,
-        ),
-
-        actions: [
-
-          IconButton(
-
-            onPressed: () {
-
-              favoritosProvider.toggleFavorito(planta);
-            },
-
-            icon: Icon(
-
-              esFavorito
-                  ? Icons.favorite
-                  : Icons.favorite_border,
-
-              color: Colors.white,
-            ),
-          ),
-        ],
-      ),
-
-      extendBodyBehindAppBar: true,
+          Theme.of(context)
+              .scaffoldBackgroundColor,
 
       body: SingleChildScrollView(
 
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+
+          crossAxisAlignment:
+              CrossAxisAlignment.start,
 
           children: [
 
-            // 🌿 HEADER PREMIUM
+            // 🌿 imagen principal
             Stack(
 
               children: [
 
                 Hero(
 
-                  tag: planta.imagen,
+                  tag: planta.nombre,
 
-                  child: Image.asset(
-                    planta.imagen,
-                    width: double.infinity,
+                  child: Container(
+
                     height: 320,
-                    fit: BoxFit.cover,
+                    width: double.infinity,
+
+                    decoration: BoxDecoration(
+
+                      image: DecorationImage(
+
+                        image:
+                            AssetImage(
+                          planta.imagen,
+                        ),
+
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
                 ),
 
@@ -91,13 +66,79 @@ class DetallePlantaScreen extends StatelessWidget {
 
                     gradient: LinearGradient(
 
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
+                      begin:
+                          Alignment.topCenter,
+
+                      end:
+                          Alignment.bottomCenter,
 
                       colors: [
 
-                        Colors.black.withOpacity(0.2),
-                        Colors.black.withOpacity(0.7),
+                        Colors.black
+                            .withOpacity(0.2),
+
+                        Colors.black
+                            .withOpacity(0.7),
+                      ],
+                    ),
+                  ),
+                ),
+
+                SafeArea(
+
+                  child: Padding(
+
+                    padding:
+                        const EdgeInsets.all(
+                      16,
+                    ),
+
+                    child: Row(
+
+                      mainAxisAlignment:
+                          MainAxisAlignment
+                              .spaceBetween,
+
+                      children: [
+
+                        CircleAvatar(
+
+                          backgroundColor:
+                              Colors.white,
+
+                          child: IconButton(
+
+                            icon: const Icon(
+                              Icons.arrow_back,
+                              color:
+                                  Colors.black,
+                            ),
+
+                            onPressed: () {
+
+                              Navigator.pop(
+                                context,
+                              );
+                            },
+                          ),
+                        ),
+
+                        CircleAvatar(
+
+                          backgroundColor:
+                              Colors.white,
+
+                          child: IconButton(
+
+                            icon: const Icon(
+                              Icons.favorite_border,
+                              color:
+                                  Colors.red,
+                            ),
+
+                            onPressed: () {},
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -105,12 +146,14 @@ class DetallePlantaScreen extends StatelessWidget {
 
                 Positioned(
 
-                  bottom: 25,
+                  bottom: 30,
                   left: 20,
 
                   child: Column(
+
                     crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                        CrossAxisAlignment
+                            .start,
 
                     children: [
 
@@ -119,26 +162,37 @@ class DetallePlantaScreen extends StatelessWidget {
                         planta.nombre,
 
                         style: const TextStyle(
+
                           color: Colors.white,
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
+
+                          fontSize: 34,
+
+                          fontWeight:
+                              FontWeight.bold,
                         ),
                       ),
 
-                      const SizedBox(height: 8),
+                      const SizedBox(
+                          height: 8),
 
                       Container(
 
                         padding:
-                            const EdgeInsets.symmetric(
+                            const EdgeInsets
+                                .symmetric(
+
                           horizontal: 14,
-                          vertical: 6,
+                          vertical: 8,
                         ),
 
-                        decoration: BoxDecoration(
+                        decoration:
+                            BoxDecoration(
+
                           color: Colors.green,
+
                           borderRadius:
-                              BorderRadius.circular(
+                              BorderRadius
+                                  .circular(
                             20,
                           ),
                         ),
@@ -147,10 +201,15 @@ class DetallePlantaScreen extends StatelessWidget {
 
                           planta.categoria,
 
-                          style: const TextStyle(
-                            color: Colors.white,
+                          style:
+                              const TextStyle(
+
+                            color:
+                                Colors.white,
+
                             fontWeight:
-                                FontWeight.w600,
+                                FontWeight
+                                    .w600,
                           ),
                         ),
                       ),
@@ -161,111 +220,358 @@ class DetallePlantaScreen extends StatelessWidget {
             ),
 
             Padding(
-              padding: const EdgeInsets.all(20),
+
+              padding:
+                  const EdgeInsets.all(20),
 
               child: Column(
+
                 crossAxisAlignment:
-                    CrossAxisAlignment.start,
+                    CrossAxisAlignment
+                        .start,
 
                 children: [
 
-                  // 📖 descripción
-                  _buildSectionTitle(
-                    context,
+                  // 🌿 descripción
+                  Text(
+
                     "Descripción",
+
+                    style: TextStyle(
+
+                      fontSize: 24,
+
+                      fontWeight:
+                          FontWeight.bold,
+
+                      color:
+                          Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.color,
+                    ),
                   ),
 
                   const SizedBox(height: 12),
 
-                  _buildInfoCard(
-                    context,
+                  Text(
+
                     planta.descripcion,
-                  ),
 
-                  const SizedBox(height: 25),
+                    style: TextStyle(
 
-                  // 💚 beneficios
-                  _buildSectionTitle(
-                    context,
-                    "Beneficios",
-                  ),
+                      fontSize: 16,
+                      height: 1.6,
 
-                  const SizedBox(height: 12),
-
-                  _buildBenefitItem(
-                    "Ayuda al bienestar",
-                  ),
-
-                  _buildBenefitItem(
-                    "Uso medicinal natural",
-                  ),
-
-                  _buildBenefitItem(
-                    planta.beneficios,
-                  ),
-
-                  const SizedBox(height: 25),
-
-                  // ☕ preparación
-                  _buildSectionTitle(
-                    context,
-                    "Preparación",
-                  ),
-
-                  const SizedBox(height: 12),
-
-                  _buildInfoCard(
-                    context,
-                    planta.preparacion,
+                      color:
+                          Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.color,
+                    ),
                   ),
 
                   const SizedBox(height: 30),
 
-                  // ❤️ botón favorito
-                  SizedBox(
+                  // 🌿 beneficios
+                  Text(
+
+                    "Beneficios",
+
+                    style: TextStyle(
+
+                      fontSize: 24,
+
+                      fontWeight:
+                          FontWeight.bold,
+
+                      color:
+                          Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.color,
+                    ),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  Container(
 
                     width: double.infinity,
-                    height: 55,
 
-                    child: ElevatedButton.icon(
+                    padding:
+                        const EdgeInsets.all(
+                      18,
+                    ),
 
-                      onPressed: () {
+                    decoration: BoxDecoration(
 
-                        favoritosProvider
-                            .toggleFavorito(planta);
-                      },
+                      color:
+                          Theme.of(context)
+                              .cardColor,
 
-                      icon: Icon(
+                      borderRadius:
+                          BorderRadius
+                              .circular(20),
 
-                        esFavorito
-                            ? Icons.favorite
-                            : Icons.favorite_border,
-                      ),
+                      boxShadow: [
 
-                      label: Text(
-
-                        esFavorito
-                            ? "Quitar de favoritos"
-                            : "Agregar a favoritos",
-                      ),
-
-                      style: ElevatedButton.styleFrom(
-
-                        backgroundColor:
-                            Colors.green,
-
-                        foregroundColor:
-                            Colors.white,
-
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(
-                            18,
+                        BoxShadow(
+                          color: Colors.black
+                              .withOpacity(
+                            0.05,
                           ),
+
+                          blurRadius: 8,
                         ),
+                      ],
+                    ),
+
+                    child: Text(
+
+                      planta.beneficios,
+
+                      style: TextStyle(
+
+                        fontSize: 16,
+                        height: 1.6,
+
+                        color:
+                            Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.color,
                       ),
                     ),
                   ),
+
+                  const SizedBox(height: 30),
+
+                  // 🌿 preparación
+                  Text(
+
+                    "Preparación",
+
+                    style: TextStyle(
+
+                      fontSize: 24,
+
+                      fontWeight:
+                          FontWeight.bold,
+
+                      color:
+                          Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.color,
+                    ),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  Container(
+
+                    width: double.infinity,
+
+                    padding:
+                        const EdgeInsets.all(
+                      18,
+                    ),
+
+                    decoration: BoxDecoration(
+
+                      color:
+                          Theme.of(context)
+                              .cardColor,
+
+                      borderRadius:
+                          BorderRadius
+                              .circular(20),
+
+                      boxShadow: [
+
+                        BoxShadow(
+                          color: Colors.black
+                              .withOpacity(
+                            0.05,
+                          ),
+
+                          blurRadius: 8,
+                        ),
+                      ],
+                    ),
+
+                    child: Text(
+
+                      planta.preparacion,
+
+                      style: TextStyle(
+
+                        fontSize: 16,
+                        height: 1.6,
+
+                        color:
+                            Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.color,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 25),
+
+                  // 🌎 origen
+                  _buildInfoCard(
+                    context: context,
+                    icono: Icons.public,
+                    titulo: "Origen",
+                    contenido: planta.origen,
+                  ),
+
+                  const SizedBox(height: 18),
+
+                  // 🍵 tipo consumo
+                  _buildInfoCard(
+                    context: context,
+                    icono: Icons.local_cafe,
+                    titulo:
+                        "Tipo de consumo",
+                    contenido:
+                        planta.tipoConsumo,
+                  ),
+
+                  const SizedBox(height: 18),
+
+                  // ⏰ frecuencia
+                  _buildInfoCard(
+                    context: context,
+                    icono: Icons.schedule,
+                    titulo:
+                        "Frecuencia recomendada",
+                    contenido:
+                        planta.frecuencia,
+                  ),
+
+                  const SizedBox(height: 18),
+
+                  // ⚠ contraindicaciones
+                  _buildInfoCard(
+                    context: context,
+                    icono:
+                        Icons.warning_amber,
+                    titulo:
+                        "Contraindicaciones",
+                    contenido: planta
+                        .contraindicaciones,
+                  ),
+
+                  const SizedBox(height: 30),
+
+                  // 🌿 síntomas
+                  Text(
+
+                    "Síntomas que ayuda",
+
+                    style: TextStyle(
+
+                      fontSize: 22,
+
+                      fontWeight:
+                          FontWeight.bold,
+
+                      color:
+                          Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.color,
+                    ),
+                  ),
+
+                  const SizedBox(height: 15),
+
+                  Wrap(
+
+                    spacing: 10,
+                    runSpacing: 10,
+
+                    children: planta
+                        .sintomas
+                        .map((sintoma) {
+
+                      return _buildChip(
+                        sintoma,
+                        Colors.green,
+                      );
+
+                    }).toList(),
+                  ),
+
+                  const SizedBox(height: 30),
+
+                  // 😊 emociones
+                  Text(
+
+                    "Emociones relacionadas",
+
+                    style: TextStyle(
+
+                      fontSize: 22,
+
+                      fontWeight:
+                          FontWeight.bold,
+
+                      color:
+                          Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.color,
+                    ),
+                  ),
+
+                  const SizedBox(height: 15),
+
+                  Wrap(
+
+                    spacing: 10,
+                    runSpacing: 10,
+
+                    children: planta
+                        .emociones
+                        .map((emocion) {
+
+                      return _buildChip(
+                        emocion,
+                        Colors.teal,
+                      );
+
+                    }).toList(),
+                  ),
+
+                  const SizedBox(height: 30),
+
+                  // ⭐ popularidad
+                  _buildInfoCard(
+                    context: context,
+                    icono: Icons.star,
+                    titulo:
+                        "Nivel de popularidad",
+                    contenido:
+                        "${planta.popularidad}/5",
+                  ),
+
+                  const SizedBox(height: 18),
+
+                  // 🧪 propiedades
+                  _buildInfoCard(
+                    context: context,
+                    icono: Icons.science,
+                    titulo: "Propiedades",
+                    contenido:
+                        planta.propiedades,
+                  ),
+
+                  const SizedBox(height: 40),
                 ],
               ),
             ),
@@ -275,92 +581,147 @@ class DetallePlantaScreen extends StatelessWidget {
     );
   }
 
-  // 🌿 títulos
-  Widget _buildSectionTitle(
-    BuildContext context,
-    String title,
-  ) {
+  Widget _buildInfoCard({
 
-    return Text(
+    required BuildContext context,
 
-      title,
+    required IconData icono,
 
-      style: TextStyle(
-        fontSize: 24,
-        fontWeight: FontWeight.bold,
+    required String titulo,
 
-        color: Theme.of(context)
-            .textTheme
-            .bodyLarge
-            ?.color,
-      ),
-    );
-  }
-
-  // 📦 cards
-  Widget _buildInfoCard(
-    BuildContext context,
-    String text,
-  ) {
+    required String contenido,
+  }) {
 
     return Container(
 
       width: double.infinity,
 
-      padding: const EdgeInsets.all(18),
+      padding:
+          const EdgeInsets.all(18),
 
       decoration: BoxDecoration(
 
-        color: Theme.of(context).cardColor,
+        color:
+            Theme.of(context).cardColor,
 
-        borderRadius: BorderRadius.circular(22),
+        borderRadius:
+            BorderRadius.circular(20),
 
         boxShadow: [
+
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
+            color:
+                Colors.black.withOpacity(
+              0.05,
+            ),
+
+            blurRadius: 8,
           ),
         ],
       ),
 
-      child: Text(
-        text,
-        style: const TextStyle(
-          fontSize: 16,
-          height: 1.5,
-        ),
+      child: Row(
+
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
+
+        children: [
+
+          Icon(
+            icono,
+            color: Colors.green,
+            size: 28,
+          ),
+
+          const SizedBox(width: 15),
+
+          Expanded(
+
+            child: Column(
+
+              crossAxisAlignment:
+                  CrossAxisAlignment
+                      .start,
+
+              children: [
+
+                Text(
+
+                  titulo,
+
+                  style: TextStyle(
+
+                    fontSize: 17,
+
+                    fontWeight:
+                        FontWeight.bold,
+
+                    color:
+                        Theme.of(context)
+                            .textTheme
+                            .bodyLarge
+                            ?.color,
+                  ),
+                ),
+
+                const SizedBox(height: 8),
+
+                Text(
+
+                  contenido,
+
+                  style: TextStyle(
+
+                    fontSize: 15,
+
+                    color:
+                        Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.color,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  // ✅ beneficios
-  Widget _buildBenefitItem(String text) {
+  Widget _buildChip(
+    String texto,
+    Color color,
+  ) {
 
-    return Padding(
+    return Container(
 
-      padding: const EdgeInsets.only(bottom: 12),
+      padding:
+          const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 10,
+      ),
 
-      child: Row(
+      decoration: BoxDecoration(
 
-        children: [
+        color:
+            color.withOpacity(0.15),
 
-          const Icon(
-            Icons.check_circle,
-            color: Colors.green,
-          ),
+        borderRadius:
+            BorderRadius.circular(30),
+      ),
 
-          const SizedBox(width: 10),
+      child: Text(
 
-          Expanded(
+        texto,
 
-            child: Text(
-              text,
-              style: const TextStyle(
-                fontSize: 16,
-              ),
-            ),
-          ),
-        ],
+        style: TextStyle(
+
+          color: color,
+
+          fontWeight:
+              FontWeight.w600,
+        ),
       ),
     );
   }

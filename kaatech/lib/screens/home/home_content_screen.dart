@@ -1,60 +1,102 @@
 import 'package:flutter/material.dart';
 
 import '../../models/planta_model.dart';
+import '../../models/rutina_model.dart';
+import '../../models/categoria_model.dart';
 
-import '../../widgets/category_item.dart';
 import '../../widgets/plant_card.dart';
+import '../../widgets/rutina_card.dart';
+import '../../widgets/explorar_card.dart';
 
 import '../plantas/detalle_planta_screen.dart';
+import '../rutinas/rutina_detalle_screen.dart';
 
 class HomeContent extends StatefulWidget {
+
   const HomeContent({super.key});
 
   @override
-  State<HomeContent> createState() => _HomeContentState();
+  State<HomeContent> createState() =>
+      _HomeContentState();
 }
 
-class _HomeContentState extends State<HomeContent> {
+class _HomeContentState
+    extends State<HomeContent> {
 
   List<Planta> plantasFiltradas = plantas;
 
   String categoriaSeleccionada = "";
 
+  // 🔍 buscar planta
   void buscarPlanta(String texto) {
 
-    final resultados = plantas.where((planta) {
+    final resultados =
+        plantas.where((planta) {
 
-      final nombre = planta.nombre.toLowerCase();
-      final busqueda = texto.toLowerCase();
+      final nombre =
+          planta.nombre.toLowerCase();
 
-      return nombre.contains(busqueda);
+      final busqueda =
+          texto.toLowerCase();
+
+      return nombre.contains(
+        busqueda,
+      );
 
     }).toList();
 
     setState(() {
-      plantasFiltradas = resultados;
+
+      plantasFiltradas =
+          resultados;
     });
   }
 
-  void filtrarCategoria(String categoria) {
+  // 🌿 filtrar categoría
+  void filtrarCategoria(
+      String categoria) {
 
     setState(() {
 
-      if (categoriaSeleccionada == categoria) {
+      categoriaSeleccionada =
+          categoria;
 
-        categoriaSeleccionada = "";
-        plantasFiltradas = plantas;
+      plantasFiltradas =
+          plantas.where((planta) {
 
-      } else {
+        return planta.categoria ==
+            categoria;
 
-        categoriaSeleccionada = categoria;
+      }).toList();
+    });
+  }
 
-        plantasFiltradas = plantas.where((planta) {
+  // 🧠 recomendaciones inteligentes
+  void filtrarNecesidad(
+    String necesidad,
+  ) {
 
-          return planta.categoria == categoria;
+    final resultados =
+        plantas.where((planta) {
 
-        }).toList();
-      }
+      final sintomas =
+          planta.sintomas;
+
+      final emociones =
+          planta.emociones;
+
+      return sintomas.contains(
+                necesidad,
+              ) ||
+          emociones.contains(
+            necesidad,
+          );
+    }).toList();
+
+    setState(() {
+
+      plantasFiltradas =
+          resultados;
     });
   }
 
@@ -64,27 +106,36 @@ class _HomeContentState extends State<HomeContent> {
     return Scaffold(
 
       backgroundColor:
-          Theme.of(context).scaffoldBackgroundColor,
+          Theme.of(context)
+              .scaffoldBackgroundColor,
 
       body: SafeArea(
 
         child: Padding(
-          padding: const EdgeInsets.all(16),
+
+          padding:
+              const EdgeInsets.all(16),
 
           child: SingleChildScrollView(
 
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
 
               children: [
 
                 // 👋 saludo
                 Text(
+
                   "Hola, Alex 🌿",
 
                   style: TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
+
+                    fontSize: 28,
+
+                    fontWeight:
+                        FontWeight.bold,
 
                     color: Theme.of(context)
                         .textTheme
@@ -98,35 +149,48 @@ class _HomeContentState extends State<HomeContent> {
                 // 🔍 buscador
                 TextField(
 
-                  onChanged: buscarPlanta,
+                  onChanged:
+                      buscarPlanta,
 
-                  decoration: InputDecoration(
+                  decoration:
+                      InputDecoration(
 
-                    hintText: "Buscar planta...",
-                    prefixIcon: const Icon(Icons.search),
+                    hintText:
+                        "Buscar planta...",
+
+                    prefixIcon:
+                        const Icon(
+                      Icons.search,
+                    ),
 
                     filled: true,
 
                     fillColor:
-                        Theme.of(context).cardColor,
+                        Theme.of(context)
+                            .cardColor,
 
                     contentPadding:
                         const EdgeInsets.symmetric(
                       vertical: 18,
                     ),
 
-                    border: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(18),
+                    border:
+                        OutlineInputBorder(
 
-                      borderSide: BorderSide.none,
+                      borderRadius:
+                          BorderRadius.circular(
+                        18,
+                      ),
+
+                      borderSide:
+                          BorderSide.none,
                     ),
                   ),
                 ),
 
                 const SizedBox(height: 25),
 
-                // 🌿 PLANTA DEL DÍA
+                // 🌿 planta del día
                 Container(
 
                   height: 220,
@@ -134,9 +198,12 @@ class _HomeContentState extends State<HomeContent> {
                   decoration: BoxDecoration(
 
                     borderRadius:
-                        BorderRadius.circular(28),
+                        BorderRadius.circular(
+                      28,
+                    ),
 
-                    image: const DecorationImage(
+                    image:
+                        const DecorationImage(
 
                       image: AssetImage(
                         "assets/images/manzanilla.jpg",
@@ -148,23 +215,39 @@ class _HomeContentState extends State<HomeContent> {
 
                   child: Container(
 
-                    padding: const EdgeInsets.all(20),
+                    padding:
+                        const EdgeInsets.all(
+                      20,
+                    ),
 
-                    decoration: BoxDecoration(
+                    decoration:
+                        BoxDecoration(
 
                       borderRadius:
-                          BorderRadius.circular(28),
+                          BorderRadius.circular(
+                        28,
+                      ),
 
-                      gradient: LinearGradient(
+                      gradient:
+                          LinearGradient(
 
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
+                        begin:
+                            Alignment.topCenter,
+
+                        end:
+                            Alignment.bottomCenter,
 
                         colors: [
 
-                          Colors.black.withOpacity(0.2),
+                          Colors.black
+                              .withOpacity(
+                            0.2,
+                          ),
 
-                          Colors.black.withOpacity(0.7),
+                          Colors.black
+                              .withOpacity(
+                            0.7,
+                          ),
                         ],
                       ),
                     ),
@@ -172,7 +255,8 @@ class _HomeContentState extends State<HomeContent> {
                     child: Column(
 
                       crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                          CrossAxisAlignment
+                              .start,
 
                       mainAxisAlignment:
                           MainAxisAlignment.end,
@@ -184,44 +268,58 @@ class _HomeContentState extends State<HomeContent> {
                           "🌿 Planta del día",
 
                           style: TextStyle(
-                            color: Colors.white70,
+
+                            color:
+                                Colors.white70,
+
                             fontSize: 16,
                           ),
                         ),
 
-                        const SizedBox(height: 8),
+                        const SizedBox(
+                            height: 8),
 
                         const Text(
 
                           "Manzanilla",
 
                           style: TextStyle(
-                            color: Colors.white,
+
+                            color:
+                                Colors.white,
+
                             fontSize: 30,
+
                             fontWeight:
                                 FontWeight.bold,
                           ),
                         ),
 
-                        const SizedBox(height: 8),
+                        const SizedBox(
+                            height: 8),
 
                         const Text(
 
                           "Ideal para relajación y dolor estomacal",
 
                           style: TextStyle(
-                            color: Colors.white70,
+
+                            color:
+                                Colors.white70,
+
                             fontSize: 15,
                           ),
                         ),
 
-                        const SizedBox(height: 10),
+                        const SizedBox(
+                            height: 10),
 
                         ElevatedButton(
 
                           onPressed: () {
 
-                            final planta = plantas.first;
+                            final planta =
+                                plantas.first;
 
                             Navigator.push(
 
@@ -231,14 +329,16 @@ class _HomeContentState extends State<HomeContent> {
 
                                 builder: (_) =>
                                     DetallePlantaScreen(
-                                  planta: planta,
+                                  planta:
+                                      planta,
                                 ),
                               ),
                             );
                           },
 
                           style:
-                              ElevatedButton.styleFrom(
+                              ElevatedButton
+                                  .styleFrom(
 
                             backgroundColor:
                                 Colors.white,
@@ -248,6 +348,7 @@ class _HomeContentState extends State<HomeContent> {
 
                             shape:
                                 RoundedRectangleBorder(
+
                               borderRadius:
                                   BorderRadius.circular(
                                 16,
@@ -266,78 +367,213 @@ class _HomeContentState extends State<HomeContent> {
 
                 const SizedBox(height: 35),
 
-                // 🌿 categorías
-                Row(
+                // 🌿 explorar
+                Text(
 
-                  mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween,
+                  "Explorar",
 
-                  children: [
+                  style: TextStyle(
 
-                    CategoryItem(
+                    fontSize: 22,
 
-                      title: "Digestivas",
-                      icon: Icons.spa,
+                    fontWeight:
+                        FontWeight.bold,
 
-                      isSelected:
-                          categoriaSeleccionada ==
-                              "Digestivas",
+                    color: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.color,
+                  ),
+                ),
 
-                      onTap: () {
+                const SizedBox(height: 18),
 
-                        filtrarCategoria(
-                          "Digestivas",
+                SizedBox(
+
+                  height: 220,
+
+                  child: ListView(
+
+                    scrollDirection:
+                        Axis.horizontal,
+
+                    children:
+                        categorias.map(
+                      (categoria) {
+
+                        return ExplorarCard(
+
+                          titulo:
+                              categoria.nombre,
+
+                          descripcion:
+                              categoria
+                                  .descripcion,
+
+                          icono:
+                              categoria.icono,
+
+                          color:
+                              categoria.color,
+
+                          onTap: () {
+
+                            filtrarCategoria(
+                              categoria
+                                  .nombre,
+                            );
+                          },
                         );
                       },
-                    ),
-
-                    CategoryItem(
-
-                      title: "Resp",
-                      icon: Icons.air,
-
-                      isSelected:
-                          categoriaSeleccionada ==
-                              "Respiratorias",
-
-                      onTap: () {
-
-                        filtrarCategoria(
-                          "Respiratorias",
-                        );
-                      },
-                    ),
-
-                    CategoryItem(
-
-                      title: "Relajantes",
-                      icon:
-                          Icons.self_improvement,
-
-                      isSelected:
-                          categoriaSeleccionada ==
-                              "Relajantes",
-
-                      onTap: () {
-
-                        filtrarCategoria(
-                          "Relajantes",
-                        );
-                      },
-                    ),
-                  ],
+                    ).toList(),
+                  ),
                 ),
 
                 const SizedBox(height: 35),
 
-                // 🌱 plantas destacadas
+                // 🧠 necesidades
                 Text(
 
-                  "Plantas destacadas",
+                  "¿Cómo te sientes hoy?",
 
                   style: TextStyle(
+
                     fontSize: 22,
-                    fontWeight: FontWeight.bold,
+
+                    fontWeight:
+                        FontWeight.bold,
+
+                    color: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.color,
+                  ),
+                ),
+
+                const SizedBox(height: 18),
+
+                SizedBox(
+
+                  height: 55,
+
+                  child: ListView(
+
+                    scrollDirection:
+                        Axis.horizontal,
+
+                    children: [
+
+                      _buildNeedChip(
+                        "😴 Insomnio",
+                        "Insomnio",
+                      ),
+
+                      _buildNeedChip(
+                        "😰 Ansiedad",
+                        "Ansiedad",
+                      ),
+
+                      _buildNeedChip(
+                        "🤧 Gripe",
+                        "Gripe",
+                      ),
+
+                      _buildNeedChip(
+                        "🤢 Náuseas",
+                        "Náuseas",
+                      ),
+
+                      _buildNeedChip(
+                        "⚡ Fatiga",
+                        "Fatiga",
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 35),
+
+                // 🌙 rutinas
+                Text(
+
+                  "Rutinas naturales",
+
+                  style: TextStyle(
+
+                    fontSize: 22,
+
+                    fontWeight:
+                        FontWeight.bold,
+
+                    color: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.color,
+                  ),
+                ),
+
+                const SizedBox(height: 18),
+
+                SizedBox(
+
+                  height: 230,
+
+                  child: ListView(
+
+                    scrollDirection:
+                        Axis.horizontal,
+
+                    children:
+                        rutinas.map(
+                      (rutina) {
+
+                        return RutinaCard(
+
+                          titulo:
+                              rutina.titulo,
+
+                          descripcion:
+                              rutina
+                                  .descripcion,
+
+                          emoji:
+                              rutina.emoji,
+
+                          onTap: () {
+
+                            Navigator.push(
+
+                              context,
+
+                              MaterialPageRoute(
+
+                                builder: (_) =>
+                                    RutinaDetalleScreen(
+                                  rutina:
+                                      rutina,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ).toList(),
+                  ),
+                ),
+
+                const SizedBox(height: 35),
+
+                // 🌿 plantas
+                Text(
+
+                  "Plantas recomendadas",
+
+                  style: TextStyle(
+
+                    fontSize: 22,
+
+                    fontWeight:
+                        FontWeight.bold,
 
                     color: Theme.of(context)
                         .textTheme
@@ -358,35 +594,111 @@ class _HomeContentState extends State<HomeContent> {
                         Axis.horizontal,
 
                     children:
-                        plantasFiltradas.map((planta) {
+                        plantasFiltradas.map(
+                      (planta) {
 
-                      return PlantCard(
+                        return PlantCard(
 
-                        name: planta.nombre,
-                        image: planta.imagen,
+                          name:
+                              planta.nombre,
 
-                        onTap: () {
+                          image:
+                              planta.imagen,
 
-                          Navigator.push(
+                          onTap: () {
 
-                            context,
+                            Navigator.push(
 
-                            MaterialPageRoute(
+                              context,
 
-                              builder: (_) =>
-                                  DetallePlantaScreen(
-                                planta: planta,
+                              MaterialPageRoute(
+
+                                builder: (_) =>
+                                    DetallePlantaScreen(
+                                  planta:
+                                      planta,
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      );
-
-                    }).toList(),
+                            );
+                          },
+                        );
+                      },
+                    ).toList(),
                   ),
                 ),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNeedChip(
+    String texto,
+    String necesidad,
+  ) {
+
+    return GestureDetector(
+
+      onTap: () {
+
+        filtrarNecesidad(
+          necesidad,
+        );
+      },
+
+      child: Container(
+
+        margin:
+            const EdgeInsets.only(
+          right: 12,
+        ),
+
+        padding:
+            const EdgeInsets.symmetric(
+          horizontal: 20,
+        ),
+
+        decoration: BoxDecoration(
+
+          color:
+              Theme.of(context)
+                  .cardColor,
+
+          borderRadius:
+              BorderRadius.circular(
+            20,
+          ),
+
+          boxShadow: [
+
+            BoxShadow(
+
+              color: Colors.black
+                  .withOpacity(0.05),
+
+              blurRadius: 8,
+            ),
+          ],
+        ),
+
+        alignment: Alignment.center,
+
+        child: Text(
+
+          texto,
+
+          style: TextStyle(
+
+            color:
+                Theme.of(context)
+                    .textTheme
+                    .bodyLarge
+                    ?.color,
+
+            fontWeight:
+                FontWeight.w600,
           ),
         ),
       ),

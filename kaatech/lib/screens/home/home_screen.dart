@@ -1,32 +1,42 @@
 import 'package:flutter/material.dart';
 
-import '../perfil/perfil_screen.dart';
 import '../favoritos/favoritos_screen.dart';
+import '../perfil/perfil_screen.dart';
 import '../recetas/recetas_screen.dart';
 
 import 'home_content_screen.dart';
 
 class HomeScreen extends StatefulWidget {
+
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeScreen> createState() =>
+      _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
 
   int _currentIndex = 0;
 
-  final List<Widget> _screens = const [
+  late final List<Widget> _screens;
 
-    HomeContent(),
+  @override
+  void initState() {
 
-    RecetasScreen(),
+    super.initState();
 
-    FavoritosScreen(),
+    _screens = [
 
-    PerfilScreen(),
-  ];
+      const HomeContent(),
+
+      const RecetasScreen(),
+
+      const FavoritosScreen(),
+
+      const PerfilScreen(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +56,9 @@ class _HomeScreenState extends State<HomeScreen> {
           borderRadius: BorderRadius.circular(20),
 
           boxShadow: [
+
             BoxShadow(
-              color: Colors.black12,
+              color: Colors.black.withOpacity(0.08),
               blurRadius: 10,
             ),
           ],
@@ -68,6 +79,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 Theme.of(context).cardColor,
 
             type: BottomNavigationBarType.fixed,
+
+            elevation: 0,
 
             onTap: (index) {
 
