@@ -1,12 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../../../../shared/widgets/kaatech_app_bar.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../shared/widgets/custom_button.dart';
 import '../../../shared/widgets/custom_input.dart';
 
 class AgregarRecetaScreen extends StatefulWidget {
-  const AgregarRecetaScreen({super.key});
+  final String? docId;
+  final Map<String, dynamic>? datosIniciales;
+  const AgregarRecetaScreen({super.key, this.docId, this.datosIniciales});
 
   @override
   State<AgregarRecetaScreen> createState() => _AgregarRecetaScreenState();
@@ -22,6 +25,20 @@ class _AgregarRecetaScreenState extends State<AgregarRecetaScreen> {
   final _emojiController = TextEditingController();
 
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final d = widget.datosIniciales;
+    if (d != null) {
+      _nombreController.text = d['nombre'] ?? '';
+      _nombreCientificoController.text = d['nombreCientifico'] ?? '';
+      _descripcionController.text = d['descripcion'] ?? '';
+      _usosController.text = d['usos'] ?? '';
+      _preparacionController.text = d['preparacion'] ?? '';
+      _emojiController.text = d['emoji'] ?? '';
+    }
+  }
 
   @override
   void dispose() {
@@ -40,7 +57,7 @@ class _AgregarRecetaScreenState extends State<AgregarRecetaScreen> {
     setState(() => _isLoading = true);
 
     try {
-      await FirebaseFirestore.instance.collection('recetas').add({
+      final datos = {
         'nombre': _nombreController.text.trim(),
         'nombreCientifico': _nombreCientificoController.text.trim(),
         'descripcion': _descripcionController.text.trim(),
@@ -54,14 +71,23 @@ class _AgregarRecetaScreenState extends State<AgregarRecetaScreen> {
         'nutrientes': 0.60,
         'temperatura': 0.85,
         'createdAt': DateTime.now().toIso8601String(),
-      });
+      };
+
+      if (widget.docId != null) {
+        await FirebaseFirestore.instance
+            .collection('recetas')
+            .doc(widget.docId)
+            .update(datos);
+      } else {
+        await FirebaseFirestore.instance.collection('recetas').add(datos);
+      }
 
       if (mounted) {
+        final msg = widget.docId != null
+            ? '✅ Receta actualizada correctamente'
+            : '✅ Receta agregada correctamente';
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('✅ Receta agregada correctamente'),
-            backgroundColor: AppColors.success,
-          ),
+          SnackBar(content: Text(msg), backgroundColor: AppColors.success),
         );
         Navigator.pop(context);
       }
@@ -82,8 +108,11 @@ class _AgregarRecetaScreenState extends State<AgregarRecetaScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(title: const Text('Agregar Receta')),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: KaatechAppBar(
+        title: widget.docId != null ? 'Editar Receta' : 'Agregar Receta',
+        showBack: true,
+      ),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(

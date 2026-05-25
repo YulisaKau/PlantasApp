@@ -1,12 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../../../../shared/widgets/kaatech_app_bar.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../shared/widgets/custom_button.dart';
 import '../../../shared/widgets/custom_input.dart';
 
 class AgregarPlantaScreen extends StatefulWidget {
-  const AgregarPlantaScreen({super.key});
+  final String? docId;
+  final Map<String, dynamic>? datosIniciales;
+  const AgregarPlantaScreen({super.key, this.docId, this.datosIniciales});
 
   @override
   State<AgregarPlantaScreen> createState() => _AgregarPlantaScreenState();
@@ -22,6 +25,20 @@ class _AgregarPlantaScreenState extends State<AgregarPlantaScreen> {
 
   String _categoriaSeleccionada = 'Digestivas';
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final d = widget.datosIniciales;
+    if (d != null) {
+      _nombreController.text = d['nombre'] ?? '';
+      _nombreCientificoController.text = d['nombreCientifico'] ?? '';
+      _descripcionController.text = d['descripcion'] ?? '';
+      _beneficiosController.text = d['beneficios'] ?? '';
+      _preparacionController.text = d['preparacion'] ?? '';
+      _categoriaSeleccionada = d['categoria'] ?? 'Digestivas';
+    }
+  }
 
   final List<String> _categorias = [
     'Digestivas',
@@ -48,7 +65,7 @@ class _AgregarPlantaScreenState extends State<AgregarPlantaScreen> {
     setState(() => _isLoading = true);
 
     try {
-      await FirebaseFirestore.instance.collection('plantas').add({
+      final datos = {
         'nombre': _nombreController.text.trim(),
         'nombreCientifico': _nombreCientificoController.text.trim(),
         'descripcion': _descripcionController.text.trim(),
@@ -57,14 +74,23 @@ class _AgregarPlantaScreenState extends State<AgregarPlantaScreen> {
         'categoria': _categoriaSeleccionada,
         'imagen': 'assets/images/default.jpg',
         'createdAt': DateTime.now().toIso8601String(),
-      });
+      };
+
+      if (widget.docId != null) {
+        await FirebaseFirestore.instance
+            .collection('plantas')
+            .doc(widget.docId)
+            .update(datos);
+      } else {
+        await FirebaseFirestore.instance.collection('plantas').add(datos);
+      }
 
       if (mounted) {
+        final msg = widget.docId != null
+            ? '✅ Planta actualizada correctamente'
+            : '✅ Planta agregada correctamente';
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('✅ Planta agregada correctamente'),
-            backgroundColor: AppColors.success,
-          ),
+          SnackBar(content: Text(msg), backgroundColor: AppColors.success),
         );
         Navigator.pop(context);
       }
@@ -85,8 +111,11 @@ class _AgregarPlantaScreenState extends State<AgregarPlantaScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(title: const Text('Agregar Planta')),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: KaatechAppBar(
+        title: widget.docId != null ? 'Editar Planta' : 'Agregar Planta',
+        showBack: true,
+      ),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(

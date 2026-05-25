@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../../../shared/widgets/kaatech_app_bar.dart';
 import '../models/planta_model.dart';
 import '../../../core/constants/app_colors.dart';
 import 'detalle_planta_screen.dart';
@@ -13,21 +14,19 @@ class ListaPlantasScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(title: Text(categoria ?? 'Plantas')),
+      appBar: KaatechAppBar(title: categoria ?? 'Plantas', showBack: true),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('plantas')
             .where('categoria', isEqualTo: categoria)
             .snapshots(),
         builder: (context, snapshot) {
-          // ── Cargando ──────────────────────
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(color: AppColors.primaryMedium),
             );
           }
 
-          // ── Error ─────────────────────────
           if (snapshot.hasError) {
             return const Center(
               child: Text(
@@ -37,7 +36,7 @@ class ListaPlantasScreen extends StatelessWidget {
             );
           }
 
-          // ── Plantas de Firestore ──────────
+          // Plantas de Firestore
           final docsFirestore = snapshot.data?.docs ?? [];
           final plantasFirestore = docsFirestore.map((doc) {
             final data = doc.data() as Map<String, dynamic>;
@@ -48,18 +47,25 @@ class ListaPlantasScreen extends StatelessWidget {
               beneficios: data['beneficios'] ?? '',
               preparacion: data['preparacion'] ?? '',
               categoria: data['categoria'] ?? '',
+              origen: data['origen'] ?? '',
+              sintomas: List<String>.from(data['sintomas'] ?? []),
+              tipoConsumo: data['tipoConsumo'] ?? '',
+              frecuencia: data['frecuencia'] ?? '',
+              contraindicaciones: data['contraindicaciones'] ?? '',
+              propiedades: data['propiedades'] ?? '',
+              popularidad: data['popularidad'] ?? 0,
+              emociones: List<String>.from(data['emociones'] ?? []),
             );
           }).toList();
 
-          // ── Plantas locales filtradas ─────
+          // Plantas locales filtradas
           final plantasLocales = plantas
               .where((p) => p.categoria == categoria)
               .toList();
 
-          // ── Combinar ambas listas ─────────
+          // Combinar
           final todasLasPlantas = [...plantasLocales, ...plantasFirestore];
 
-          // ── Sin resultados ────────────────
           if (todasLasPlantas.isEmpty) {
             return const Center(
               child: Text(
@@ -69,7 +75,6 @@ class ListaPlantasScreen extends StatelessWidget {
             );
           }
 
-          // ── Lista ─────────────────────────
           return ListView.builder(
             padding: const EdgeInsets.all(16),
             itemCount: todasLasPlantas.length,

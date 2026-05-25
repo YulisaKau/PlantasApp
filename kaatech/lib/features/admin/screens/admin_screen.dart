@@ -3,6 +3,8 @@ import '../../../core/constants/app_colors.dart';
 import '../widgets/admin_card.dart';
 import 'agregar_planta_screen.dart';
 import 'agregar_receta_screen.dart';
+import 'ver_plantas_screen.dart';
+import 'ver_recetas_screen.dart';
 
 class AdminScreen extends StatelessWidget {
   const AdminScreen({super.key});
@@ -10,7 +12,7 @@ class AdminScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primary,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       body: SafeArea(
         child: Column(
           children: [
@@ -41,27 +43,34 @@ class AdminScreen extends StatelessWidget {
             // ── Panel blanco ──────────────────
             Expanded(
               child: Container(
-                decoration: const BoxDecoration(
-                  color: AppColors.background,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(28),
+                  ),
                 ),
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 8),
-                    const Text(
+                    Text(
                       'Gestión de contenido',
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.textDark,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                     const SizedBox(height: 6),
-                    const Text(
+                    Text(
                       'Agrega y administra plantas y recetas',
-                      style: TextStyle(fontSize: 13, color: AppColors.textSoft),
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.6),
+                      ),
                     ),
                     const SizedBox(height: 24),
 
@@ -96,7 +105,12 @@ class AdminScreen extends StatelessWidget {
                       titulo: 'Ver Plantas',
                       subtitulo: 'Administra las plantas existentes',
                       icono: Icons.list_alt,
-                      onTap: () {},
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const VerPlantasScreen(),
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 14),
 
@@ -104,7 +118,12 @@ class AdminScreen extends StatelessWidget {
                       titulo: 'Ver Recetas',
                       subtitulo: 'Administra las recetas existentes',
                       icono: Icons.menu_book,
-                      onTap: () {},
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const VerRecetasScreen(),
+                        ),
+                      ),
                     ),
                   ],
                 ),

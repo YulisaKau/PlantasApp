@@ -15,12 +15,12 @@ class PlantaCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).cardTheme.color,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.grey.shade100),
+          border: Border.all(color: Theme.of(context).dividerColor),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: Colors.black.withValues(alpha: 0.04),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -33,7 +33,7 @@ class PlantaCard extends StatelessWidget {
               width: 52,
               height: 52,
               decoration: BoxDecoration(
-                color: planta.color.withOpacity(0.12),
+                color: planta.color.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(13),
               ),
               child: Center(
@@ -49,10 +49,10 @@ class PlantaCard extends StatelessWidget {
                 children: [
                   Text(
                     planta.nombre,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.primary,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                   const SizedBox(height: 3),
@@ -62,7 +62,9 @@ class PlantaCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 11,
-                      color: Colors.grey.shade500,
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.55),
                       height: 1.4,
                     ),
                   ),

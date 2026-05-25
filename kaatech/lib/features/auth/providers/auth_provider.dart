@@ -19,11 +19,27 @@ class AuthProvider extends ChangeNotifier {
   bool get isAuthenticated => _status == AuthStatus.authenticated;
 
   AuthProvider() {
-    // Escucha cambios de sesión en tiempo real
-    _authService.authStateChanges.listen((User? firebaseUser) {
+    _authService.authStateChanges.listen((User? firebaseUser) async {
       if (firebaseUser != null) {
+        // Cargar datos del usuario desde Firestore
+        try {
+          _user = await _authService.getUserFromFirestore(firebaseUser.uid);
+        } catch (_) {
+          // Si falla Firestore, crear UserModel básico con datos de Firebase
+          _user = UserModel(
+            uid: firebaseUser.uid,
+            name:
+                firebaseUser.displayName ??
+                firebaseUser.email?.split('@').first ??
+                'Usuario',
+            email: firebaseUser.email ?? '',
+            photoUrl: firebaseUser.photoURL,
+            createdAt: DateTime.now(),
+          );
+        }
         _status = AuthStatus.authenticated;
       } else {
+        _user = null;
         _status = AuthStatus.unauthenticated;
       }
       notifyListeners();
@@ -46,7 +62,7 @@ class AuthProvider extends ChangeNotifier {
       _status = AuthStatus.authenticated;
       notifyListeners();
       return true;
-    } on Exception catch (e) {
+    } catch (e) {
       _setError(_parseError(e.toString()));
       return false;
     }
@@ -63,7 +79,7 @@ class AuthProvider extends ChangeNotifier {
       _status = AuthStatus.authenticated;
       notifyListeners();
       return true;
-    } on Exception catch (e) {
+    } catch (e) {
       _setError(_parseError(e.toString()));
       return false;
     }
@@ -77,8 +93,16 @@ class AuthProvider extends ChangeNotifier {
       _status = AuthStatus.authenticated;
       notifyListeners();
       return true;
-    } on Exception catch (e) {
-      _setError(_parseError(e.toString()));
+    } catch (e) {
+      final msg = e.toString();
+      if (msg.contains('cancelado') ||
+          msg.contains('canceled') ||
+          msg.contains('cancelled')) {
+        _status = AuthStatus.unauthenticated;
+        notifyListeners();
+        return false;
+      }
+      _setError(_parseError(msg));
       return false;
     }
   }

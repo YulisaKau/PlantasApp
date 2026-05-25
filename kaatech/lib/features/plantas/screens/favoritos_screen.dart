@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../shared/widgets/kaatech_app_bar.dart';
 import 'package:provider/provider.dart';
 import '../providers/favoritos_provider.dart';
 import '../screens/detalle_planta_screen.dart';
@@ -14,10 +15,7 @@ class FavoritosScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: const Text('Favoritos'),
-        automaticallyImplyLeading: false,
-      ),
+      appBar: const KaatechAppBar(title: 'Favoritos'),
       body: favoritos.isEmpty
           ? Center(
               child: Column(

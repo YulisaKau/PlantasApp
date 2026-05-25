@@ -20,7 +20,7 @@ class DetalleRecetaScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: AppColors.primary,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       body: SafeArea(
         child: Column(
           children: [
@@ -69,10 +69,10 @@ class DetalleRecetaScreen extends StatelessWidget {
                     width: 110,
                     height: 110,
                     decoration: BoxDecoration(
-                      color: planta.color.withOpacity(0.2),
+                      color: planta.color.withValues(alpha: 0.2),
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: planta.color.withOpacity(0.4),
+                        color: planta.color.withValues(alpha: 0.4),
                         width: 2,
                       ),
                     ),
@@ -113,9 +113,11 @@ class DetalleRecetaScreen extends StatelessWidget {
             // ── Panel blanco con info ─────────
             Expanded(
               child: Container(
-                decoration: const BoxDecoration(
-                  color: AppColors.background,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(28),
+                  ),
                 ),
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.all(20),
@@ -127,7 +129,7 @@ class DetalleRecetaScreen extends StatelessWidget {
                         planta.descripcion,
                         style: TextStyle(
                           fontSize: 14,
-                          color: Colors.grey.shade600,
+                          color: Theme.of(context).textTheme.bodyMedium?.color,
                           height: 1.6,
                         ),
                         textAlign: TextAlign.center,

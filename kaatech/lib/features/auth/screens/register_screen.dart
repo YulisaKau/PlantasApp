@@ -61,20 +61,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Expanded(
               flex: 1,
               child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(Icons.local_florist, color: Colors.white, size: 48),
-                    SizedBox(height: 8),
-                    Text(
-                      AppStrings.register,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
-                      ),
+                child: Image.asset(
+                  'assets/imagesApp/K_aaxTech/DarkMode/Logo2Drk.png',
+                  width: 140,
+                  errorBuilder: (_, __, ___) => const Text(
+                    "K'AATECH",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 2,
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -83,8 +81,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Expanded(
               flex: 4,
               child: Container(
-                decoration: const BoxDecoration(
-                  color: AppColors.background,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
                 ),
                 padding: const EdgeInsets.all(24),

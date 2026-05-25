@@ -17,7 +17,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
 version: 1.0.0+1
-
+shared_preferences: ^2.3.0
 environment:
   sdk: ^3.11.4
 
@@ -44,10 +44,12 @@ dependencies:
   # Estado y navegación
   provider: ^6.1.0
   go_router: ^14.0.0
+  smooth_page_indicator: ^2.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.14.1
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -68,6 +70,9 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/imagesApp/K_aaxTech/LightMode/
+    - assets/imagesApp/K_aaxTech/DarkMode/
+    - assets/imagesApp/K_aaxTech/Icons/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -99,3 +104,10 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/imagesApp/K_aaxTech/Icons/Icon3.png"
+  min_sdk_android: 21
+  adaptive_icon_background: "#1D4727"
+  adaptive_icon_foreground: "assets/imagesApp/K_aaxTech/Icons/Icon3.png"

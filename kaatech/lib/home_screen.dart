@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'core/constants/app_colors.dart';
 import 'features/auth/providers/auth_provider.dart';
 import 'features/plantas/screens/plantas_screen.dart';
-import 'features/plantas/screens/favoritos_screen.dart';
-import 'features/recetas/screens/recetas_screen.dart';
+import 'features/comunidad/screens/comunidad_screen.dart';
+import 'features/herramientas/screens/herramientas_screen.dart';
 import 'features/perfil/perfil_screen.dart';
 import 'features/admin/screens/admin_screen.dart';
 
@@ -27,8 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final screens = [
       const PlantasScreen(),
-      const FavoritosScreen(),
-      const RecetasScreen(),
+      const ComunidadScreen(),
+      const HerramientasScreen(),
       const PerfilScreen(),
       if (isAdmin) const AdminScreen(),
     ];
@@ -39,12 +38,12 @@ class _HomeScreenState extends State<HomeScreen> {
         label: 'Plantas',
       ),
       const BottomNavigationBarItem(
-        icon: Icon(Icons.favorite),
-        label: 'Favoritos',
+        icon: Icon(Icons.groups_2_outlined),
+        label: 'Comunidad',
       ),
       const BottomNavigationBarItem(
-        icon: Icon(Icons.local_drink),
-        label: 'Recetas',
+        icon: Icon(Icons.auto_awesome_outlined),
+        label: 'Herramientas',
       ),
       const BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil'),
       if (isAdmin)
@@ -54,10 +53,12 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
     ];
 
+    final safeIndex = _currentIndex < screens.length ? _currentIndex : 0;
+
     return Scaffold(
-      body: screens[_currentIndex],
+      body: screens[safeIndex],
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
+        currentIndex: safeIndex,
         onTap: (index) => setState(() => _currentIndex = index),
         items: items,
         type: BottomNavigationBarType.fixed,

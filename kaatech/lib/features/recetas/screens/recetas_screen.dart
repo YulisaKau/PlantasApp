@@ -35,7 +35,7 @@ class _RecetasScreenState extends State<RecetasScreen> {
     final provider = context.watch<RecetasProvider>();
 
     return Scaffold(
-      backgroundColor: AppColors.primary,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       body: SafeArea(
         child: Column(
           children: [
@@ -66,9 +66,11 @@ class _RecetasScreenState extends State<RecetasScreen> {
             // ── Panel blanco ──────────────────
             Expanded(
               child: Container(
-                decoration: const BoxDecoration(
-                  color: AppColors.background,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(28),
+                  ),
                 ),
                 child: Column(
                   children: [

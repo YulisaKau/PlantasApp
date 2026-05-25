@@ -6,6 +6,7 @@ import '../../../core/constants/app_strings.dart';
 import '../../../shared/widgets/custom_button.dart';
 import '../../../shared/widgets/custom_input.dart';
 import 'register_screen.dart';
+import '../../../home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -33,7 +34,10 @@ class _LoginScreenState extends State<LoginScreen> {
       email: _emailController.text.trim(),
       password: _passwordController.text.trim(),
     );
-    if (!success && mounted) {
+    if (!mounted) return;
+    if (success) {
+      _goHome();
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(provider.errorMessage ?? AppStrings.errorGeneric),
@@ -43,10 +47,21 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  void _goHome() {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (_) => const HomeScreen()),
+      (_) => false, // elimina todo el stack (login, onboarding, splash)
+    );
+  }
+
   Future<void> _loginWithGoogle() async {
     final provider = context.read<AuthProvider>();
     final success = await provider.loginWithGoogle();
-    if (!success && mounted) {
+    if (!mounted) return;
+    if (success) {
+      _goHome();
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(provider.errorMessage ?? AppStrings.errorGeneric),
@@ -70,33 +85,18 @@ class _LoginScreenState extends State<LoginScreen> {
             Expanded(
               flex: 2,
               child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.local_florist,
+                child: Image.asset(
+                  'assets/imagesApp/K_aaxTech/DarkMode/Logo2Drk.png',
+                  width: 180,
+                  errorBuilder: (_, __, ___) => const Text(
+                    "K'AATECH",
+                    style: TextStyle(
                       color: Colors.white,
-                      size: 64,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 2,
                     ),
-                    const SizedBox(height: 12),
-                    const Text(
-                      AppStrings.appName,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      'Plantas medicinales a tu alcance',
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(0.7),
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -105,9 +105,11 @@ class _LoginScreenState extends State<LoginScreen> {
             Expanded(
               flex: 3,
               child: Container(
-                decoration: const BoxDecoration(
-                  color: AppColors.background,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(28),
+                  ),
                 ),
                 padding: const EdgeInsets.all(24),
                 child: Form(
@@ -116,12 +118,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           AppStrings.login,
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.textDark,
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
                         const SizedBox(height: 20),

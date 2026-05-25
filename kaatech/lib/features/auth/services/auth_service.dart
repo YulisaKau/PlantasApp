@@ -14,6 +14,13 @@ class AuthService {
   // ── Usuario actual ─────────────────────────
   User? getCurrentUser() => _auth.currentUser;
 
+  // ── Obtener UserModel desde Firestore ──────
+  Future<UserModel> getUserFromFirestore(String uid) async {
+    final doc = await _firestore.collection('users').doc(uid).get();
+    if (!doc.exists) throw Exception('Usuario no encontrado en Firestore');
+    return UserModel.fromMap(doc.data()!);
+  }
+
   // ── Registro con email y contraseña ───────
   Future<UserModel> registerWithEmail({
     required String name,
@@ -34,7 +41,6 @@ class AuthService {
     );
 
     await _firestore.collection('users').doc(user.uid).set(user.toMap());
-
     return user;
   }
 

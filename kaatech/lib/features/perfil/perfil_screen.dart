@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:kaatech/features/auth/screens/login_screen.dart';
+import 'package:kaatech/splash_screen.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../features/auth/providers/auth_provider.dart';
 import '../../../features/plantas/models/planta_model.dart';
 import '../../../features/plantas/providers/favoritos_provider.dart';
 import '../../../features/plantas/providers/theme_provider.dart';
+import '../../../features/plantas/screens/favoritos_screen.dart';
 
 class PerfilScreen extends StatelessWidget {
   const PerfilScreen({super.key});
@@ -30,7 +33,7 @@ class PerfilScreen extends StatelessWidget {
                 Container(
                   width: 120,
                   height: 120,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     color: AppColors.primaryPale,
                   ),
@@ -107,19 +110,34 @@ class PerfilScreen extends StatelessWidget {
                   },
                 ),
 
-                // ── Opciones ──────────────────
+                // ── Mis Favoritos ─────────────
+                _buildOption(
+                  context: context,
+                  icon: Icons.favorite,
+                  title: 'Mis Favoritos',
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const FavoritosScreen()),
+                  ),
+                ),
+
+                // ── Configuración ─────────────
                 _buildOption(
                   context: context,
                   icon: Icons.settings,
                   title: 'Configuración',
                   onTap: () {},
                 ),
+
+                // ── Acerca de ─────────────────
                 _buildOption(
                   context: context,
                   icon: Icons.info,
                   title: 'Acerca de',
                   onTap: () {},
                 ),
+
+                // ── Cerrar sesión ─────────────
                 _buildOption(
                   context: context,
                   icon: Icons.logout,
@@ -127,6 +145,12 @@ class PerfilScreen extends StatelessWidget {
                   color: AppColors.error,
                   onTap: () async {
                     await context.read<AuthProvider>().signOut();
+                    if (!context.mounted) return;
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (_) => const SplashScreen()),
+                      (_) => false,
+                    );
                   },
                 ),
               ],
